@@ -1,0 +1,25 @@
+on:
+  push:
+  schedule:
+    - cron: "0 8 * * 0"
+
+jobs:
+  get-radarr-version:
+    runs-on: ubuntu-22.04
+    outputs:
+      radarr-version: ${{ steps.radarr-version-step.outputs.RADARR_VERSION }}
+    steps:
+      - name: Get latest radarr version
+        id: radarr-version-step
+        shell: bash
+        run: >
+          echo RADARR_VERSION=$(curl --silent 'https://api.github.com/repos/Radarr/Radarr/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")' | sed 's/v//') >> $GITHUB_OUTPUT
+  docker:
+    needs: get-radarr-version
+    uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@master
+    with:
+      software-version: ${{ needs.get-radarr-version.outputs.radarr-version }}
+      platforms: |
+        linux/amd64
+        linux/arm64
+    secrets: inherit
