@@ -38,10 +38,14 @@ COPY --from=build --chown=1000:1000 /rootfs /
 
 EXPOSE 7878
 
+# NOTE: enabling running containers with read only filesystem
+#       https://github.com/dotnet/docs/issues/10217
 ENV XDG_CONFIG_HOME=/config \
-    DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false
+    DOTNET_SYSTEM_GLOBALIZATION_PREDEFINED_CULTURES_ONLY=false \
+    COMPlus_EnableDiagnostics=0
 
 HEALTHCHECK  --start-period=15s --interval=30s --timeout=5s --retries=5 \
     CMD [ "/wget", "--quiet", "--tries=1", "--spider", "http://localhost:7878/"]
 
 ENTRYPOINT [ "/app/Radarr" ]
+CMD [ "-nobrowser" ]
