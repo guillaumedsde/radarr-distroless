@@ -6,6 +6,9 @@ ARG VERSION
 
 WORKDIR /workdir
 
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+# hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt \
     case "$(uname -m)" in \
     x86_64)  ARCH="x64" ;; \
