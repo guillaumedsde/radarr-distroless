@@ -13,7 +13,7 @@ The final images are built and hosted on the [dockerhub](https://hub.docker.com/
 
 ## ✔️ Features summary
 
-- 🥑 [distroless](https://github.com/GoogleContainerTools/distroless) minimal image
+- 🥑 distroless minimal image
 - 🤏 As few Docker layers as possible
 - 🛡️ only basic runtime dependencies
 - 🛡️ Runs as unprivileged user with minimal permissions
@@ -23,26 +23,26 @@ The final images are built and hosted on the [dockerhub](https://hub.docker.com/
 ### `docker run`
 
 ```bash
-$ docker run  -v /your/config/path/:/config \
-              -v /your/torrent/blackhole/path/:/blackhole \
-              -p 7878:7878 \
-              --user 1000:1000 \
+$ docker run  --volume "/your/config/path:/config" \
+              --publish "7878:7878" \
+              --user "1000:1000" \
+              --read-only=true \
               guillaumedsde/radarr-distroless:latest
 ```
 
 ### `docker-compose.yml`
 
 ```yaml
-version: "3.3"
+version: '3.9'
 services:
   radarr-distroless:
     volumes:
-      - "/your/config/path/:/config"
-      - "/your/torrent/blackhole/path/:/blackhole"
+      - '/your/config/path:/config'
     ports:
-      - "7878:7878"
-    user: 1000:1000
-    image: "guillaumedsde/radarr-distroless:latest"
+      - '7878:7878'
+    user: '1000:1000'
+    read_only: true
+    image: 'guillaumedsde/radarr-distroless:latest'
 ```
 
 ## 🖥️ Supported platforms
