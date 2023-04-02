@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       radarr-version: ${{ steps.radarr-version-step.outputs.RADARR_VERSION }}
-      should-build: ${{ steps.radarr-version-step.outputs.RADARR_VERSION }}
+      should-build: ${{ steps.radarr-version-step.outputs.SHOULD_BUILD }}
     steps:
       - run: >-
           echo LATEST_RADARR_VERSION=$(
@@ -22,7 +22,7 @@ jobs:
 
   docker:
     needs: get-radarr-version
-    if: ${{ needs.get-radarr-version.outputs == '1' }}
+    if: ${{ needs.get-radarr-version.outputs.should-build == '1' }}
     uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@master
     with:
       software-version: ${{ needs.get-radarr-version.outputs.radarr-version }}
