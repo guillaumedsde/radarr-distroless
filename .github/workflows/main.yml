@@ -10,11 +10,12 @@ jobs:
       radarr-version: ${{ steps.radarr-version-step.outputs.LATEST_RADARR_VERSION }}
       should-build: ${{ steps.should-build-step.outputs.SHOULD_BUILD }}
     steps:
+      # NOTE: version fetching gotten from:
+      #       https://github.com/linuxserver/docker-radarr/blob/acededb0cb8f20e28dd8b4336bd2b955080fde89/Dockerfile#L24
       - run: >-
           echo LATEST_RADARR_VERSION=$(
-          git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/Radarr/Radarr.git
-          | tail -n1
-          | sed -e 's/.*\///; s/\^{}//' -e 's/^v//'
+          curl -sL "https://radarr.servarr.com/v1/update/master/changes?runtime=netcore&os=linux"
+          | jq -r '.[0].version'
           )
           | tee -a "$GITHUB_ENV" "$GITHUB_OUTPUT"
         id: radarr-version-step
