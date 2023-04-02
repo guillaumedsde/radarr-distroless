@@ -14,7 +14,7 @@ jobs:
           echo LATEST_RADARR_VERSION=$(
           git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/Radarr/Radarr.git
           | tail -n1
-          | sed 's/.*\///; s/\^{}//'
+          | sed -e 's/.*\///; s/\^{}//' -e 's/^v//'
           )
           | tee -a "$GITHUB_ENV" "$GITHUB_OUTPUT"
         id: radarr-version-step
