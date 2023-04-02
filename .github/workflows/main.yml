@@ -14,12 +14,11 @@ jobs:
           echo LATEST_RADARR_VERSION=$(
           git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/Radarr/Radarr.git
           | tail -n1
-          | sed 's/.*\///; s/\^{}//' 
-          | sed 's/^/more text/'
+          | sed 's/.*\///; s/\^{}//'
           ) >> $GITHUB_ENV
       - run: >-
           docker manifest inspect "docker.io/guillaumedsde/radarr-distroless:${LATEST_RADARR_VERSION}" 
-          || echo SHOULD_BUILD="1"
+          || echo SHOULD_BUILD="1" >> $GITHUB_ENV
 
   docker:
     needs: get-radarr-version
