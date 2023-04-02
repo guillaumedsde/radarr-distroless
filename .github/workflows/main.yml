@@ -1,21 +1,29 @@
 on:
   push:
   schedule:
-    - cron: "0 8 * * 0"
+    - cron: "0 3 * * *"
 
 jobs:
   get-radarr-version:
     runs-on: ubuntu-22.04
     outputs:
       radarr-version: ${{ steps.radarr-version-step.outputs.RADARR_VERSION }}
+      should-build: ${{ steps.radarr-version-step.outputs.RADARR_VERSION }}
     steps:
-      - name: Get latest radarr version
-        id: radarr-version-step
-        shell: bash
-        run: >
-          echo RADARR_VERSION=$(curl --silent 'https://api.github.com/repos/Radarr/Radarr/releases/latest' | grep -Po '"tag_name": "\K.*?(?=")' | sed 's/v//') >> $GITHUB_OUTPUT
+      - run: >-
+          echo LATEST_RADARR_VERSION=$(
+          git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/Radarr/Radarr.git
+          | tail -n1
+          | sed 's/.*\///; s/\^{}//' 
+          | sed 's/^/more text/'
+          ) >> $GITHUB_ENV
+      - run: >-
+          docker manifest inspect "docker.io/guillaumedsde/radarr-distroless:${LATEST_RADARR_VERSION}" 
+          || echo SHOULD_BUILD="1"
+
   docker:
     needs: get-radarr-version
+    if: needs.get-radarr-version.outputs == "1"
     uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@master
     with:
       software-version: ${{ needs.get-radarr-version.outputs.radarr-version }}
