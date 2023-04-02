@@ -23,7 +23,7 @@ jobs:
 
   docker:
     needs: get-radarr-version
-    if: needs.get-radarr-version.outputs == "1"
+    if: needs.get-radarr-version.outputs == '1'
     uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@master
     with:
       software-version: ${{ needs.get-radarr-version.outputs.radarr-version }}
