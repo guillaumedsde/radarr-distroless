@@ -7,7 +7,7 @@ jobs:
   get-radarr-version:
     runs-on: ubuntu-22.04
     outputs:
-      radarr-version: ${{ steps.radarr-version-step.outputs.RADARR_VERSION }}
+      radarr-version: ${{ steps.radarr-version-step.outputs.LATEST_RADARR_VERSION }}
       should-build: ${{ steps.radarr-version-step.outputs.SHOULD_BUILD }}
     steps:
       - run: >-
@@ -15,10 +15,11 @@ jobs:
           git -c 'versionsort.suffix=-' ls-remote --tags --sort='v:refname' https://github.com/Radarr/Radarr.git
           | tail -n1
           | sed 's/.*\///; s/\^{}//'
-          ) >> $GITHUB_ENV
+          )
+          | tee -a "$GITHUB_ENV" "$GITHUB_OUTPUT"
       - run: >-
           docker manifest inspect "docker.io/guillaumedsde/radarr-distroless:${LATEST_RADARR_VERSION}" 
-          || echo SHOULD_BUILD="1" >> $GITHUB_ENV
+          || echo SHOULD_BUILD=1 >> "$GITHUB_OUTPUT"
 
   docker:
     needs: get-radarr-version
