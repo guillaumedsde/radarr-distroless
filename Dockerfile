@@ -21,7 +21,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     && apt-get update \
     && apt-get install --yes --no-install-recommends ca-certificates wget libsqlite3-0 \
     && mkdir -p app /rootfs/usr/lib/ \
-    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linuxmusl&runtime=netcore&arch=${ARCH}" | \
+    && wget -qO- "https://radarr.servarr.com/v1/update/master/updatefile?version=${VERSION}&os=linux&runtime=netcore&arch=${ARCH}" | \
     tar xvz --strip-components=1 --directory=app \
     && mv app /rootfs/ \
     && cp /usr/lib/*-linux-gnu/libsqlite3.so.0 /rootfs/usr/lib/libsqlite3.so.0
