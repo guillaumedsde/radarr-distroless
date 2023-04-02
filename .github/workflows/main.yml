@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-22.04
     outputs:
       radarr-version: ${{ steps.radarr-version-step.outputs.LATEST_RADARR_VERSION }}
-      should-build: ${{ steps.radarr-version-step.outputs.SHOULD_BUILD }}
+      should-build: ${{ steps.should-build-step.outputs.SHOULD_BUILD }}
     steps:
       - run: >-
           echo LATEST_RADARR_VERSION=$(
@@ -17,9 +17,11 @@ jobs:
           | sed 's/.*\///; s/\^{}//'
           )
           | tee -a "$GITHUB_ENV" "$GITHUB_OUTPUT"
+        id: radarr-version-step
       - run: >-
           docker manifest inspect "docker.io/guillaumedsde/radarr-distroless:${LATEST_RADARR_VERSION}" 
           || echo SHOULD_BUILD=1 >> "$GITHUB_OUTPUT"
+        id: should-build-step
 
   docker:
     needs: get-radarr-version
