@@ -1,0 +1,47 @@
+on:
+  workflow_call:
+    inputs:
+      arr-app:
+        required: true
+        type: string
+      branch:
+        required: false
+        type: string
+        default: main
+
+jobs:
+  get-version:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.version-step.outputs.LATEST_VERSION }}
+      should-build: ${{ steps.should-build-step.outputs.SHOULD_BUILD }}
+    steps:
+      # NOTE: version fetching gotten from:
+      #       https://github.com/linuxserver/docker-radarr/blob/acededb0cb8f20e28dd8b4336bd2b955080fde89/Dockerfile#L24
+      - run: >-
+          echo LATEST_VERSION=$(
+          curl -sL "https://${{ inputs.arr-app }}.servarr.com/v1/update/${{ inputs.branch }}/changes?runtime=netcore&os=linux"
+          | jq -r '.[0].version'
+          )
+          | tee -a "$GITHUB_ENV" "$GITHUB_OUTPUT"
+        id: version-step
+      - run: >-
+          docker manifest inspect "docker.io/guillaumedsde/${{ inputs.arr-app }}-distroless:${LATEST_VERSION}" 
+          || echo SHOULD_BUILD=1 >> "$GITHUB_OUTPUT"
+        id: should-build-step
+
+  docker:
+    needs: get-version
+    if: ${{ needs.get-version.outputs.should-build == '1' }}
+    uses: guillaumedsde/qbittorrent-distroless/.github/workflows/docker.yml@fix(ci)/configurable-image-name
+    with:
+      software-version: ${{ needs.get-version.outputs.version }}
+      platforms: |
+        linux/amd64
+        linux/arm64
+      image-name: ${{ github.GITHUB_REPOSITORY_OWNER }}/${{ inputs.arr-app }}
+      extra-build-args: |
+        APP=${{ inputs.arr-app }}
+        VERSION=${{ needs.get-version.outputs.version }}
+        BRANCH=${{ inputs.branch }}
+    secrets: inherit
