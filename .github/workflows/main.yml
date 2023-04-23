@@ -11,18 +11,12 @@ jobs:
         include:
           - arr-app: "radarr"
             branch: "master"
-          # - arr-app: "sonarr"
-          # branch: "main"
+          - arr-app: "sonarr"
+            branch: "main"
           - arr-app: "lidarr"
             branch: "develop"
           - arr-app: "readarr"
             branch: "develop"
-
-        arr-app:
-          - radarr
-          - sonarr
-          - lidarr
-          - readarr
     uses: ./.github/workflows/build-arr-docker-image-if-necessary.yml
     with:
       arr-app: ${{ matrix.arr-app }}
