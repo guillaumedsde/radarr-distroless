@@ -39,7 +39,8 @@ jobs:
       platforms: |
         linux/amd64
         linux/arm64
-      image-name: ${{ github.GITHUB_REPOSITORY_OWNER }}/${{ inputs.arr-app }}
+      # FIXME: replace this with a variable
+      image-name: guillaumedsde/${{ inputs.arr-app }}
       extra-build-args: |
         APP=${{ inputs.arr-app }}
         VERSION=${{ needs.get-version.outputs.version }}
