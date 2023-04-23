@@ -6,12 +6,13 @@ on:
 jobs:
   build-arr-app:
     strategy:
+      fail-fast: true
       matrix:
         include:
           - arr-app: "radarr"
             branch: "master"
-          - arr-app: "sonarr"
-            branch: "main"
+          # - arr-app: "sonarr"
+          # branch: "main"
           - arr-app: "lidarr"
             branch: "develop"
           - arr-app: "readarr"
