@@ -27,4 +27,5 @@ jobs:
     with:
       arr-app: ${{ matrix.arr-app }}
       branch: ${{ matrix.branch }}
+      port: ${{ matrix.port }}
     secrets: inherit
