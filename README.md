@@ -1,15 +1,12 @@
-# [🐋 Radarr-distroless](https://github.com/guillaumedsde/radarr-distroless)
+# [🐋 arr-distroless](https://github.com/guillaumedsde/radarr-distroless)
 
-[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/guillaumedsde/radarr-distroless)](https://hub.docker.com/r/guillaumedsde/radarr-distroless/tags)
-[![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/guillaumedsde/radarr-distroless)](https://hub.docker.com/r/guillaumedsde/radarr-distroless)
-[![Docker Pulls](https://img.shields.io/docker/pulls/guillaumedsde/radarr-distroless)](https://hub.docker.com/r/guillaumedsde/radarr-distroless)
-[![GitHub stars](https://img.shields.io/github/stars/guillaumedsde/radarr-distroless?label=Github%20stars)](https://github.com/guillaumedsde/radarr-distroless)
-[![GitHub watchers](https://img.shields.io/github/watchers/guillaumedsde/radarr-distroless?label=Github%20Watchers)](https://github.com/guillaumedsde/radarr-distroless)
-[![Docker Stars](https://img.shields.io/docker/stars/guillaumedsde/radarr-distroless)](https://hub.docker.com/r/guillaumedsde/radarr-distroless)
-[![GitHub](https://img.shields.io/github/license/guillaumedsde/radarr-distroless)](https://github.com/guillaumedsde/radarr-distroless/blob/master/LICENSE.md)
+This repository contains the code to build a small and secure distroless **docker** image for most ARR applications running as an unprivileged user.
+The final images are built and hosted on the [dockerhub]:
 
-This repository contains the code to build a small and secure distroless **docker** image for **[Radarr](https://github.com/Radarr/Radarr)** running as an unprivileged user.
-The final images are built and hosted on the [dockerhub](https://hub.docker.com/r/guillaumedsde/radarr-distroless).
+- [`radarr-distroless`](https://hub.docker.com/r/guillaumedsde/radarr-distroless).
+- [`lidarr-distroless`](https://hub.docker.com/r/guillaumedsde/lidarr-distroless).
+- [`readarr-distroless`](https://hub.docker.com/r/guillaumedsde/readarr-distroless).
+- [`prowlarr-distroless`](https://hub.docker.com/r/guillaumedsde/prowlarr-distroless).
 
 ## ✔️ Features summary
 
@@ -56,5 +53,5 @@ Currently this container supports only one (but widely used) platform:
 
 A couple of projects really helped me out while developing this container:
 
-- 💽 [Radarr](https://github.com/Radarr/Radarr) _the_ awesome software
+- 💽 [Arr software](https://wiki.servarr.com/) _the_ awesome suite of software
 - 🐋 The [Docker](https://github.com/docker) project (of course)
