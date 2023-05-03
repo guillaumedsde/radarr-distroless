@@ -40,7 +40,7 @@ jobs:
         linux/amd64
         linux/arm64
       # FIXME: replace this with a variable
-      image-name: guillaumedsde/${{ inputs.arr-app }}
+      image-name: guillaumedsde/${{ inputs.arr-app }}-distroless
       extra-build-args: |
         APP=${{ inputs.arr-app }}
         VERSION=${{ needs.get-version.outputs.version }}
