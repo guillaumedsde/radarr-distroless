@@ -11,14 +11,18 @@ jobs:
         include:
           - arr-app: "radarr"
             branch: "master"
+            port: "7878"
           # - arr-app: "sonarr"
           #   branch: "main"
           - arr-app: "lidarr"
             branch: "develop"
+            port: "8686"
           - arr-app: "readarr"
             branch: "develop"
+            port: "8787"
           - arr-app: "prowlarr"
             branch: "develop"
+            port: "9696"
     uses: ./.github/workflows/build-arr-docker-image-if-necessary.yml
     with:
       arr-app: ${{ matrix.arr-app }}
