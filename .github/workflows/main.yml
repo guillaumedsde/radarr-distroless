@@ -17,6 +17,8 @@ jobs:
             branch: "develop"
           - arr-app: "readarr"
             branch: "develop"
+          - arr-app: "prowlarr"
+            branch: "develop"
     uses: ./.github/workflows/build-arr-docker-image-if-necessary.yml
     with:
       arr-app: ${{ matrix.arr-app }}
