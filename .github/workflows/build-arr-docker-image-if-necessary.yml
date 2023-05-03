@@ -8,6 +8,9 @@ on:
         required: false
         type: string
         default: main
+      port:
+        required: true
+        type: string
 
 jobs:
   get-version:
@@ -45,4 +48,5 @@ jobs:
         APP=${{ inputs.arr-app }}
         VERSION=${{ needs.get-version.outputs.version }}
         BRANCH=${{ inputs.branch }}
+        PORT=${{ inputs.port }}
     secrets: inherit
