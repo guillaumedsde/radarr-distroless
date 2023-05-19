@@ -28,7 +28,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 WORKDIR /rootfs
 
-COPY --chmod=755 --chown=0:0 --from=busybox:1.36.0-musl /bin/wget /rootfs/wget
+COPY --chmod=755 --chown=0:0 --from=busybox:1.36.1-musl /bin/wget /rootfs/wget
 
 FROM mcr.microsoft.com/dotnet/runtime-deps:7.0.5-cbl-mariner2.0-distroless
 
